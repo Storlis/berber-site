@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Yönetim Paneli | Usta Makas</title>
+<style>
+:root{--navy:#10203a;--red:#d2263b;--blue:#2b5fa8;--bg:#eef1f6;--ink:#0c1729}
+*{box-sizing:border-box;margin:0}
+body{font-family:system-ui,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink)}
+header{background:var(--navy);color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:4px solid var(--red)}
+header b{font-size:1.2rem}
+.w{max-width:1000px;margin:auto;padding:22px 16px}
+button{font:600 .95rem inherit;font-family:inherit;padding:10px 16px;border:0;border-radius:8px;cursor:pointer;background:var(--blue);color:#fff}
+button.k{background:var(--red)}button.g{background:#dde3ee;color:var(--ink)}
+input,select{padding:10px;border:2px solid #d5dbe6;border-radius:8px;font:1rem inherit;font-family:inherit}
+.login{max-width:340px;margin:90px auto;background:#fff;padding:28px;border-radius:14px;display:grid;gap:12px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px}
+.st{background:#fff;padding:18px;border-radius:12px;border-top:4px solid var(--blue)}
+.st b{display:block;font-size:2rem}.st span{color:#5b6779;font-size:.9rem}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.tabs button{background:#dde3ee;color:var(--ink)}.tabs button.on{background:var(--navy);color:#fff}
+.tw{overflow-x:auto;background:#fff;border-radius:12px}
+table{width:100%;border-collapse:collapse;min-width:620px}
+th,td{padding:12px 14px;text-align:left;border-bottom:1px solid #eef0f5}
+th{background:var(--navy);color:#fff;font-size:.85rem}
+tr.bugun td:first-child{border-left:4px solid var(--red)}
+tr.yeni{background:#fff6d6}
+td a{color:var(--blue);text-decoration:none;font-weight:600}
+.box{background:#fff;border-radius:12px;padding:18px;margin-top:20px}
+.chip{display:inline-flex;gap:8px;align-items:center;background:#fbe1e4;color:#8a1526;padding:6px 10px;border-radius:999px;margin:4px 6px 0 0;font-size:.9rem}
+.chip button{padding:0 6px;background:none;color:#8a1526;font-size:1.1rem}
+#err{color:#b33;font-size:.9rem}.mut{color:#5b6779;font-size:.9rem}
+</style></head><body>
+<div id="giris" class="login"><h2>Yönetim paneli</h2>
+<input id="s" type="password" placeholder="Şifre" onkeydown="if(event.key==='Enter')gir()">
+<button onclick="gir()">Giriş yap</button><div id="err"></div></div>
+
+<div id="panel" style="display:none">
+<header><b>✂ Usta Makas · Randevular</b><button class="g" onclick="cik()">Çıkış</button></header>
+<div class="w">
+<div class="stats">
+<div class="st"><b id="nB">0</b><span>Bugünkü randevu</span></div>
+<div class="st"><b id="nH">0</b><span>Bu hafta</span></div>
+<div class="st"><b id="nT">0</b><span>Toplam</span></div>
+<div class="st"><b id="nS">-</b><span>Sıradaki randevu</span></div>
+</div>
+<div class="bar tabs">
+<button id="t1" class="on" onclick="sekme(1)">Bugün</button><button id="t2" onclick="sekme(2)">Yaklaşan</button><button id="t3" onclick="sekme(3)">Hepsi</button>
+<input type="date" id="filtre" onchange="sekme(0)"><input id="ara" placeholder="İsim ya da telefon ara" oninput="ciz()" style="flex:1;min-width:160px">
+</div>
+<div class="tw"><table><thead><tr><th>Tarih</th><th>Saat</th><th>Ad</th><th>Telefon</th><th>Hizmet</th><th></th></tr></thead><tbody id="t"></tbody></table></div>
+<p id="bos" class="mut" style="display:none;padding:16px">Bu görünümde randevu yok.</p>
+
+<div class="box"><b>Yeni randevu ekle (telefonla gelenler için)</b>
+<div class="bar" style="margin-top:10px"><input id="ma" placeholder="Ad soyad"><input id="mt" placeholder="Telefon"><input type="date" id="md"><select id="ms"></select><button onclick="ekle()">Ekle</button></div><div id="me" class="mut"></div></div>
+<div class="box"><b>Sitede duyuru göster</b>
+<p class="mut">Sitenin en üstünde kırmızı bantta görünür. Boş bırakıp kaydedersen kalkar.</p>
+<div class="bar" style="margin-top:10px"><input id="du" placeholder="Örn: Bayramda 10:00-16:00 açığız" maxlength="140" style="flex:1;min-width:200px"><button onclick="duyur()">Kaydet</button></div></div>
+<div class="box"><b>Kapalı günler</b>
+<p class="mut">Tatil ya da izin günü seç. O gün müşteriler randevu alamaz.</p>
+<div class="bar" style="margin-top:10px"><input type="date" id="kg"><button class="k" onclick="kapat()">Günü kapat</button></div>
+<div id="kl"></div></div>
+</div></div>
+
+<script>
+let sifre='',veri=[],mod=1,bilinen=null;const $=i=>document.getElementById(i);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const H=()=>({'x-sifre':sifre,'Content-Type':'application/json'});
+async function gir(){sifre=$('s').value;if(await yukle()){sessionStorage.setItem('sf',sifre);setInterval(yukle,20000)}}
+function cik(){sessionStorage.removeItem('sf');location.reload()}
+async function yukle(){
+  const r=await fetch('/api/admin/randevular',{headers:H()});
+  if(!r.ok){$('err').textContent='Şifre yanlış.';return false}
+  const yeni=await r.json();
+  const eskiIds=bilinen;bilinen=new Set(yeni.map(x=>x.id));
+  yeni.forEach(x=>x.yeni=eskiIds&&!eskiIds.has(x.id));
+  veri=yeni;$('giris').style.display='none';$('panel').style.display='block';ciz();kapaliYukle();return true;
+}
+function sekme(n){mod=n;['t1','t2','t3'].forEach((id,i)=>$(id).classList.toggle('on',i+1===n));if(n)$('filtre').value='';ciz()}
+function ciz(){
+  const b=iso(new Date()),h=new Date();h.setDate(h.getDate()+7);
+  const simdi=new Date();
+  $('nB').textContent=veri.filter(r=>r.tarih===b).length;
+  $('nH').textContent=veri.filter(r=>r.tarih>=b&&r.tarih<=iso(h)).length;
+  $('nT').textContent=veri.length;
+  const sr=veri.find(r=>new Date(r.tarih+'T'+r.saat)>=simdi);
+  $('nS').textContent=sr?(sr.tarih===b?'':sr.tarih.slice(5)+' ')+sr.saat:'-';
+  const f=$('filtre').value,q=$('ara').value.toLowerCase();
+  let l=veri.filter(r=>f?r.tarih===f:mod===1?r.tarih===b:mod===2?r.tarih>=b:true);
+  if(q)l=l.filter(r=>(r.ad+r.telefon).toLowerCase().includes(q));
+  $('bos').style.display=l.length?'none':'block';
+  $('t').innerHTML=l.map(r=>`<tr class="${r.tarih===b?'bugun':''} ${r.yeni?'yeni':''}"><td>${r.tarih}</td><td><b>${r.saat}</b></td><td>${esc(r.ad)}</td><td><a href="tel:${esc(r.telefon)}">${esc(r.telefon)}</a></td><td>${esc(r.hizmet)}</td><td><button class="k" onclick="sil(${r.id})">İptal et</button></td></tr>`).join('');
+}
+async function sil(id){
+  if(!confirm('Bu randevu iptal edilsin mi?'))return;
+  await fetch('/api/admin/randevu/'+id,{method:'DELETE',headers:H()});yukle();
+}
+async function kapaliYukle(){
+  const l=await (await fetch('/api/admin/kapali',{headers:H()})).json();
+  $('kl').innerHTML=l.sort().map(t=>`<span class="chip">${t}<button onclick="ac('${t}')" title="Tekrar aç">×</button></span>`).join('')||'<span class="mut">Kapalı gün yok.</span>';
+}
+async function kapat(){
+  if(!$('kg').value)return;
+  await fetch('/api/admin/kapali',{method:'POST',headers:H(),body:JSON.stringify({tarih:$('kg').value})});kapaliYukle();
+}
+async function ac(t){await fetch('/api/admin/kapali/'+t,{method:'DELETE',headers:H()});kapaliYukle()}
+if(sessionStorage.getItem('sf')){sifre=sessionStorage.getItem('sf');yukle().then(ok=>{if(ok)setInterval(yukle,20000)})}
+
+for(let h=10;h<19;h++)['00','30'].forEach(m=>{const o=document.createElement('option');o.textContent=String(h).padStart(2,'0')+':'+m;$('ms').appendChild(o)});
+async function ekle(){
+  const b={ad:$('ma').value,telefon:$('mt').value,tarih:$('md').value,saat:$('ms').value,hizmet:'Saç Kesimi'};
+  const r=await fetch('/api/randevu',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});
+  const j=await r.json();$('me').textContent=r.ok?'Randevu eklendi.':j.hata;if(r.ok){$('ma').value=$('mt').value='';yukle()}
+}
+async function duyur(){await fetch('/api/admin/duyuru',{method:'POST',headers:H(),body:JSON.stringify({metin:$('du').value})});alert('Kaydedildi.')}
+</script></body></html>

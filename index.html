@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="tr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Usta Makas Berber | Online Randevu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#10203a;--navy2:#182c4d;--red:#d2263b;--paper:#f3efe6;--ink:#0c1729;--mut:#8d9ab0;--blue:#2b5fa8}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font-family:'Work Sans',system-ui,sans-serif;background:var(--navy);color:var(--paper);line-height:1.6}
+h1,h2,h3{font-family:'Bricolage Grotesque','Work Sans',sans-serif;line-height:1.05}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.pole{background:repeating-linear-gradient(-45deg,var(--red) 0 14px,#fff 14px 28px,var(--blue) 28px 42px,#fff 42px 56px);background-size:80px 80px}
+header{position:sticky;top:0;z-index:5;background:rgba(16,32,58,.92);backdrop-filter:blur(8px);border-bottom:4px solid transparent;border-image:linear-gradient(90deg,var(--red),#fff,var(--blue)) 1}
+.bar{max-width:1080px;margin:auto;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.logo{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.35rem;text-decoration:none}
+nav a{margin-left:20px;text-decoration:none;font-size:.95rem;color:#cdd6e5}
+nav a:hover{color:#fff}
+.btn{display:inline-block;background:var(--red);color:#fff;border:0;padding:14px 26px;font:600 1rem 'Work Sans',sans-serif;border-radius:999px;cursor:pointer;text-decoration:none;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.wrap{max-width:1080px;margin:auto;padding:0 20px}
+.hero{display:grid;grid-template-columns:1.3fr .7fr;gap:40px;align-items:center;padding:70px 20px 60px;max-width:1080px;margin:auto}
+.hero h1{font-size:clamp(2.6rem,7vw,5rem);font-weight:800;letter-spacing:-.02em;margin-bottom:20px}
+.hero p{font-size:1.15rem;color:#cdd6e5;max-width:460px;margin-bottom:28px}
+.hero .info{margin-top:26px;color:var(--mut);font-size:.92rem}
+.poleWrap{justify-self:center;width:120px;height:340px;border-radius:60px;border:6px solid #fff;overflow:hidden;box-shadow:0 0 0 6px var(--navy2)}
+.poleWrap div{height:100%;animation:spin 3s linear infinite}
+@keyframes spin{to{background-position:0 80px}}
+.light{background:var(--paper);color:var(--ink)}
+section{padding:70px 0}
+h2{font-size:clamp(1.9rem,4vw,2.8rem);font-weight:800;margin-bottom:10px}
+.sub{color:var(--mut);margin-bottom:34px;max-width:520px}
+.light .sub{color:#5b6779}
+.svc{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0;border:2px solid var(--ink)}
+.svc div{padding:28px;border-right:2px solid var(--ink);background:#fff}
+.svc div:last-child{border-right:0}
+.svc h3{font-size:1.4rem;margin-bottom:8px}
+.svc p{color:#5b6779;font-size:.95rem;margin-bottom:14px}
+.svc b{font:800 1.8rem 'Bricolage Grotesque',sans-serif;color:var(--red)}
+.svc small{color:#5b6779}
+.why{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:28px}
+.why h3{font-size:1.25rem;margin-bottom:6px}
+.why p{color:#b7c2d6;font-size:.95rem}
+.book{display:grid;grid-template-columns:.8fr 1.2fr;gap:40px;align-items:start}
+.card{background:#fff;color:var(--ink);padding:28px;border-radius:18px;display:grid;gap:16px}
+label{font-size:.85rem;font-weight:600;color:#3d4a60;display:block;margin-bottom:6px}
+input,select{width:100%;padding:12px 14px;border:2px solid #d5dbe6;border-radius:10px;font:1rem 'Work Sans',sans-serif;background:#fff}
+input:focus,select:focus{border-color:var(--blue);outline:0}
+.days{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+.day{flex:0 0 auto;min-width:64px;padding:8px 6px;text-align:center;border:2px solid #d5dbe6;border-radius:12px;cursor:pointer;background:#fff;font:inherit;color:var(--ink)}
+.day b{display:block;font-size:1.2rem}.day span{font-size:.75rem;color:#6b778c}
+.day.sec{background:var(--navy);border-color:var(--navy);color:#fff}.day.sec span{color:#b7c2d6}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:8px}
+.slot{padding:10px 0;text-align:center;border:2px solid var(--blue);border-radius:10px;cursor:pointer;font-weight:600;color:var(--blue);background:#fff;font-family:inherit;font-size:1rem}
+.slot:hover{background:#eaf1fb}
+.slot.dolu{border-color:#e3e6ec;color:#b3bac8;background:#f4f5f8;cursor:not-allowed;text-decoration:line-through}
+.slot.sec{background:var(--red);border-color:var(--red);color:#fff}
+#msg{display:none;padding:14px;border-radius:10px;font-weight:500}
+.ok{background:#dff3e4;color:#1d5b2c}.err{background:#fbe1e4;color:#8a1526}
+.hint{font-size:.85rem;color:#6b778c}
+.faq details{border-bottom:1px solid #2c4166;padding:16px 0}
+.faq summary{cursor:pointer;font-weight:600;font-size:1.05rem}
+.faq p{color:#b7c2d6;margin-top:8px}
+footer{background:var(--ink);padding:50px 0 30px;font-size:.95rem;color:#b7c2d6}
+.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:30px}
+footer h4{color:#fff;margin-bottom:8px;font-family:'Bricolage Grotesque',sans-serif;font-size:1.1rem}
+.copy{margin-top:30px;font-size:.8rem;color:var(--mut)}
+@media(max-width:760px){.hero,.book{grid-template-columns:1fr}.poleWrap{width:80px;height:80px;border-radius:40px;order:-1;justify-self:start;border-width:4px}.svc div{border-right:0;border-bottom:2px solid var(--ink)}}
+@media(prefers-reduced-motion:reduce){.poleWrap div{animation:none}html{scroll-behavior:auto}}
+
+section,.hero{scroll-margin-top:70px}
+.menu{display:none;background:none;border:2px solid #fff;color:#fff;border-radius:10px;padding:8px 12px;font-size:1.1rem;cursor:pointer}
+.ico{color:var(--red);margin-bottom:12px}
+.gal{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.g{position:relative;aspect-ratio:1/1.1;border-radius:14px;overflow:hidden;display:flex;align-items:flex-end;padding:14px;font-weight:600;color:#fff}
+.g:nth-child(1){background:linear-gradient(160deg,#d2263b,#7d1220)}.g:nth-child(2){background:linear-gradient(160deg,#2b5fa8,#10203a)}
+.g:nth-child(3){background:linear-gradient(160deg,#3b4b66,#0c1729)}.g:nth-child(4){background:linear-gradient(160deg,#d2263b,#2b5fa8)}
+.g svg{position:absolute;top:14px;right:14px;opacity:.35}
+.g img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.g span{position:relative;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+.rev{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.rev blockquote{background:var(--navy2);padding:24px;border-radius:14px;border-left:5px solid var(--red)}
+.rev p{margin-bottom:12px;color:#dbe3f0}.rev cite{font-style:normal;color:var(--mut);font-size:.9rem}
+.stars{color:#f1b93b;letter-spacing:2px;margin-bottom:8px}
+.map{width:100%;height:280px;border:0;border-radius:14px;margin-bottom:34px;filter:grayscale(.4)}
+@media(max-width:760px){.menu{display:block}
+nav{display:none;position:absolute;left:0;right:0;top:100%;background:var(--navy);padding:12px 20px 20px;flex-direction:column;gap:14px}
+nav.open{display:flex}nav a{margin:0!important}.gal{grid-template-columns:repeat(2,1fr)}}
+
+.durum{display:inline-block;padding:4px 12px;border-radius:999px;font-weight:600;margin-right:8px;background:#1f7a3f;color:#fff}
+.durum.kapali{background:#8a1526}
+.duy{background:var(--red);color:#fff;text-align:center;padding:10px 20px;font-weight:600}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-top:10px}
+.steps div{border-top:4px solid var(--red);padding-top:14px}.steps h3{font-size:1.2rem;margin-bottom:4px}.steps p{color:#b7c2d6;font-size:.95rem}
+.wa{position:fixed;right:18px;bottom:18px;z-index:9;background:#25d366;color:#fff;text-decoration:none;font-weight:600;padding:13px 20px;border-radius:999px;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.adm{color:var(--mut);text-decoration:none}
+
+.book{grid-template-columns:minmax(240px,.8fr) 1.4fr}
+.book h2{font-size:clamp(1.7rem,2.6vw,2.2rem)}
+.ov{position:fixed;inset:0;z-index:20;background:rgba(8,16,32,.75);display:none;align-items:center;justify-content:center;padding:20px}
+.ov.on{display:flex;animation:fade .25s}
+.mod{background:#fff;color:var(--ink);border-radius:22px;padding:34px 30px;max-width:400px;width:100%;text-align:center;animation:pop .4s cubic-bezier(.2,1.4,.4,1);position:relative;overflow:hidden}
+.mod h3{font-size:1.7rem;margin:14px 0 6px}
+.mod p{color:#5b6779}
+.det{background:var(--paper);border-radius:14px;padding:16px;margin:18px 0;text-align:left;display:grid;gap:6px}
+.det b{display:inline-block;min-width:78px;color:#5b6779;font-weight:600}
+.chk{width:84px;height:84px}
+.chk circle{fill:#1f7a3f;transform-origin:center;animation:pop .45s .05s both}
+.chk path{fill:none;stroke:#fff;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:60;stroke-dashoffset:60;animation:draw .5s .4s forwards}
+.cf{position:absolute;top:-10px;width:9px;height:14px;opacity:0;animation:fall 1.8s ease-out forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes fade{from{opacity:0}}
+@keyframes fall{0%{opacity:1;transform:translateY(0) rotate(0)}100%{opacity:0;transform:translateY(420px) rotate(540deg)}}
+@media(prefers-reduced-motion:reduce){.mod,.chk circle,.cf{animation:none}.chk path{animation:none;stroke-dashoffset:0}.cf{display:none}}
+</style></head><body>
+<header><div class="bar"><a class="logo" href="#">Usta Makas</a>
+<button class="menu" id="menu" aria-label="Menü">☰</button>
+<nav id="nav"><a href="#hizmet">Hizmetler</a><a href="#galeri">Galeri</a><a href="#sss">Sık sorulanlar</a><a href="#iletisim">İletişim</a><a class="btn" href="#randevu" style="margin-left:20px;padding:10px 20px">Randevu al</a></nav></div></header>
+<div id="duy" class="duy" style="display:none"></div>
+
+<div class="hero">
+<div><h1>Sırada beklemek yok, saatin hazır.</h1>
+<p>Günü, saati ve hizmeti seç. Koltuk sana ayrılsın, sen sadece zamanında gel.</p>
+<a class="btn" href="#randevu">Randevu al</a>
+<div class="info"><span id="durum" class="durum"></span> Her gün 10:00 – 19:00 · Her randevu 30 dakika</div></div>
+<div class="poleWrap" aria-hidden="true"><div class="pole"></div></div>
+</div>
+
+<div class="light"><section id="hizmet"><div class="wrap">
+<h2>Ne yaptırmak istiyorsun?</h2><p class="sub">Hepsi tek randevuda, 30 dakikada.</p>
+<div class="svc">
+<div><svg class="ico" viewBox="0 0 48 48" width="46" height="46" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="37" r="6"/><circle cx="36" cy="37" r="6"/><path d="M16 32L38 6M32 32L10 6"/></svg><h3>Saç kesimi</h3><p>Makas ya da makine, yüz hattına göre kesim ve son şekil.</p><small>30 dakika</small></div>
+<div><svg class="ico" viewBox="0 0 48 48" width="46" height="46" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 30h32l4-8H10z"/><path d="M12 22v-8h10v8"/><path d="M6 38h36"/></svg><h3>Sakal tıraşı</h3><p>Sıcak havlu, ustura ve bakım kremi ile pürüzsüz bitiş.</p><small>30 dakika</small></div>
+<div><svg class="ico" viewBox="0 0 48 48" width="46" height="46" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M8 20h32v6H8z"/><path d="M12 26v10M18 26v10M24 26v10M30 26v10M36 26v10"/><path d="M8 12h32"/></svg><h3>Saç + sakal</h3><p>İkisini birden hallet, bir çıkışta hazır ol.</p><small>30 dakika</small></div>
+</div></div></section></div>
+
+<section><div class="wrap"><h2>Neden Usta Makas?</h2><p class="sub">Küçük dükkan, net kurallar.</p>
+<div class="why">
+<div><h3>Randevu saatine sadık</h3><p>Aldığın saatte koltuk senindir, sıra beklemezsin.</p></div>
+<div><h3>Hijyen</h3><p>Her müşteri için temiz havlu ve sterilize aletler.</p></div>
+<div><h3>Kolay iptal</h3><p>Gelemeyeceksen bir telefon yeter, saatin başkasına açılır.</p></div>
+</div></div></section>
+
+<div class="light"><section id="randevu"><div class="wrap book">
+<div><h2>Randevunu al</h2><p class="sub">Gün seç, boş bir saat seç, bilgilerini yaz. Onay ekranını görünce iş tamam.</p>
+<p class="hint">Üstü çizili saatler dolu. Dolu bir saatin yarım saat öncesi ya da sonrası genelde açıktır.</p></div>
+<form class="card" id="f">
+<div><label>Gün</label><div class="days" id="days"></div></div>
+<div><label>Saat</label><div class="slots" id="slots"><span class="hint">Önce bir gün seç.</span></div></div>
+<div><label for="hiz">Hizmet</label><select id="hiz"><option>Saç Kesimi</option><option>Sakal Tıraşı</option><option>Saç + Sakal</option></select></div>
+<div><label for="ad">Ad soyad</label><input id="ad" required autocomplete="name"></div>
+<div><label for="tel">Telefon</label><input id="tel" type="tel" required autocomplete="tel"></div>
+<button class="btn" type="submit">Randevuyu onayla</button>
+<div id="msg" role="status"></div>
+</form></div></section></div>
+
+<section style="padding-top:0"><div class="wrap"><h2>Nasıl çalışır?</h2><div class="steps">
+<div><h3>1. Gün ve saat seç</h3><p>Boş saatler anında görünür, dolu olanlar seçilemez.</p></div>
+<div><h3>2. Bilgilerini yaz</h3><p>Sadece adın ve telefonun yeterli. Üyelik yok.</p></div>
+<div><h3>3. Saatinde gel</h3><p>Koltuk sana ayrılmış olur, sıra beklemezsin.</p></div>
+</div></div></section>
+<div class="light"><section id="galeri"><div class="wrap"><h2>Dükkandan kareler</h2><p class="sub">Yaptığımız işlerden ve dükkanımızdan birkaç kare.</p><div class="gal"><div class="g"><svg viewBox="0 0 48 48" width="70" height="70" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="37" r="6"/><circle cx="36" cy="37" r="6"/><path d="M16 32L38 6M32 32L10 6"/></svg><img src="img/1.jpg" alt="Fade kesim" onerror="this.remove()"><span>Fade kesim</span></div><div class="g"><svg viewBox="0 0 48 48" width="70" height="70" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><path d="M6 30h32l4-8H10z"/><path d="M6 38h36"/></svg><img src="img/2.jpg" alt="Sakal şekli" onerror="this.remove()"><span>Sakal şekli</span></div><div class="g"><svg viewBox="0 0 48 48" width="70" height="70" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><path d="M8 20h32v6H8z"/><path d="M12 26v10M24 26v10M36 26v10"/></svg><img src="img/3.jpg" alt="Ustura tıraşı" onerror="this.remove()"><span>Ustura tıraşı</span></div><div class="g"><svg viewBox="0 0 48 48" width="70" height="70" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><path d="M8 40V18l16-10 16 10v22z"/><path d="M20 40V28h8v12"/></svg><img src="img/4.jpg" alt="Dükkanımız" onerror="this.remove()"><span>Dükkanımız</span></div></div></div></section></div>
+<section id="yorum"><div class="wrap"><h2>Müşterilerimiz ne diyor?</h2><p class="sub">Gelenlerden gelen notlar.</p><div class="rev">
+<blockquote><div class="stars">★★★★★</div><p>Randevu saatinde geldim, beklemeden oturdum. Kesim tam istediğim gibi.</p><cite>Mehmet K.</cite></blockquote>
+<blockquote><div class="stars">★★★★★</div><p>Telefondan iki dakikada randevu aldım. Sakal tıraşı çok temizdi.</p><cite>Ahmet D.</cite></blockquote>
+<blockquote><div class="stars">★★★★★</div><p>Hijyene dikkat ediyorlar, ekip de çok ilgili. Devamlı müşterisiyim.</p><cite>Emre S.</cite></blockquote>
+</div></div></section>
+<section id="sss"><div class="wrap faq"><h2>Sık sorulanlar</h2><p class="sub">Aklına takılan varsa buradadır.</p>
+<details><summary>Geç kalırsam ne olur?</summary><p>15 dakikadan fazla gecikirsen saatin başkasına verilebilir. Geç kalacaksan bizi ara.</p></details>
+<details><summary>Randevumu nasıl iptal ederim?</summary><p>Dükkanı arayıp adını ve saatini söylemen yeterli.</p></details>
+<details><summary>Ödemeyi nasıl yapıyorum?</summary><p>Ödeme dükkanda, nakit ya da kartla yapılır. Online ödeme yoktur.</p></details>
+</div></section>
+
+<footer id="iletisim"><div class="wrap"><iframe class="map" title="Harita" loading="lazy" src="https://www.google.com/maps?q=Mersin+Yeni%C5%9Fehir&output=embed"></iframe><div class="fg">
+<div><h4>Usta Makas Berber</h4>Klasik berberlik, modern randevu.</div>
+<div><h4>Adres</h4>Çankaya Mah. Atatürk Cad. No:42<br>Yenişehir / Mersin</div>
+<div><h4>Çalışma saatleri</h4>Her gün 10:00 – 19:00</div>
+<div><h4>İletişim</h4><a href="tel:+905308404479" style="text-decoration:none">0530 840 44 79</a><br><a href="mailto:ustamakas@gmail.com" style="text-decoration:none">ustamakas@gmail.com</a></div>
+</div><div class="copy">© Usta Makas Berber · <a class="adm" href="/admin.html">Yönetici girişi</a></div></div></footer>
+<a class="wa" href="https://wa.me/905308404479" target="_blank" rel="noopener">WhatsApp</a>
+
+<div class="ov" id="ov" role="dialog" aria-modal="true" aria-labelledby="mb"><div class="mod" id="mod">
+<svg class="chk" viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="42" r="40"/><path d="M24 43l13 13 24-27"/></svg>
+<h3 id="mb">Randevun alındı!</h3><p>Seni bekliyor olacağız, <span id="mAd"></span>.</p>
+<div class="det"><div><b>Tarih</b><span id="mT"></span></div><div><b>Saat</b><span id="mS"></span></div><div><b>Hizmet</b><span id="mH"></span></div></div>
+<p style="font-size:.9rem;margin-bottom:16px">Gelemeyeceksen lütfen bizi ara: 0530 840 44 79</p>
+<button class="btn" id="mK" type="button">Tamam</button></div></div>
+<script>
+const $=id=>document.getElementById(id);let tarih=null,secili=null;
+const gunAd=['Paz','Pzt','Sal','Çar','Per','Cum','Cmt'];
+const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+function mesaj(t,ok){const m=$('msg');m.textContent=t;m.className=ok?'ok':'err';m.style.display='block'}
+for(let i=0;i<14;i++){
+  const d=new Date();d.setDate(d.getDate()+i);
+  const b=document.createElement('button');b.type='button';b.className='day';
+  b.innerHTML=`<span>${gunAd[d.getDay()]}</span><b>${d.getDate()}</b><span>${d.toLocaleDateString('tr-TR',{month:'short'})}</span>`;
+  b.onclick=()=>{document.querySelectorAll('.day').forEach(x=>x.classList.remove('sec'));b.classList.add('sec');tarih=iso(d);yukle()};
+  $('days').appendChild(b);
+}
+async function yukle(){
+  secili=null;$('msg').style.display='none';
+  let d;
+  try{const r=await fetch('/api/slots?tarih='+tarih);if(!r.ok)throw 0;d=await r.json()}
+  catch(e){$('slots').innerHTML='<span class="hint" style="color:#8a1526">Saatler yüklenemedi. Sunucu kapalı olabilir, siyah pencerede <b>npm start</b> yazıp sayfayı yenile.</span>';return}
+  $('slots').innerHTML='';
+  d.forEach(s=>{
+    const e=document.createElement('button');e.type='button';e.textContent=s.saat;
+    e.className='slot'+(s.dolu?' dolu':'');e.disabled=s.dolu;
+    e.onclick=()=>{secili=s.saat;document.querySelectorAll('.slot').forEach(x=>x.classList.remove('sec'));e.classList.add('sec')};
+    $('slots').appendChild(e);
+  });
+}
+$('f').onsubmit=async e=>{
+  e.preventDefault();
+  if(!tarih)return mesaj('Önce bir gün seç.',false);
+  if(!secili)return mesaj('Bir saat seç.',false);
+  const r=await fetch('/api/randevu',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({ad:$('ad').value,telefon:$('tel').value,tarih,saat:secili,hizmet:$('hiz').value})});
+  const j=await r.json();
+  if(r.ok){bilgi(tarih,secili,$('hiz').value,$('ad').value);$('ad').value='';$('tel').value='';yukle()}
+  else{mesaj(j.hata,false);yukle()}
+};
+
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
+  const h=a.getAttribute('href');const t=h.length>1?document.querySelector(h):document.body;
+  if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});$('nav').classList.remove('open')}}));
+$('menu').onclick=()=>$('nav').classList.toggle('open');
+
+(function(){const h=new Date().getHours(),d=$('durum'),a=h>=10&&h<19;d.textContent=a?'Şu an açık':'Şu an kapalı';if(!a)d.classList.add('kapali')})();
+fetch('/api/duyuru').then(r=>r.json()).then(j=>{if(j.metin){$('duy').textContent=j.metin;$('duy').style.display='block'}}).catch(()=>{});
+
+function bilgi(t,sa,h,ad){
+  $('mAd').textContent=ad.split(' ')[0];
+  $('mT').textContent=new Date(t+'T00:00').toLocaleDateString('tr-TR',{weekday:'long',day:'numeric',month:'long'});
+  $('mS').textContent=sa;$('mH').textContent=h;
+  document.querySelectorAll('.cf').forEach(x=>x.remove());
+  const c=['#d2263b','#2b5fa8','#f1b93b','#1f7a3f'];
+  for(let i=0;i<28;i++){const d=document.createElement('i');d.className='cf';d.style.left=Math.random()*100+'%';d.style.background=c[i%4];d.style.animationDelay=Math.random()*.5+'s';$('mod').appendChild(d)}
+  $('ov').classList.add('on');$('mK').focus();
+}
+$('mK').onclick=()=>$('ov').classList.remove('on');
+$('ov').onclick=e=>{if(e.target.id==='ov')$('ov').classList.remove('on')};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')$('ov').classList.remove('on')});
+</script></body></html>
