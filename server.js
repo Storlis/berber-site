@@ -5,7 +5,7 @@ const path = require('path');
 const nodemailer = require('nodemailer');
 
 // ====== AYARLAR (burayı kendine göre değiştir) ======
-const ADMIN_SIFRE = process.env.ADMIN_SIFRE || 'ustamakas.33.35';          // admin panel şifresi
+const ADMIN_SIFRE = process.env.ADMIN_SIFRE ||    Math.random().toString(36);          // admin panel şifresi
 const ACILIS = 10, KAPANIS = 19;          // 10:00 - 19:00
 const MAIL_ALICI = 'ustamakas@gmail.com';   // bildirim gidecek mail
 const SMTP = { host: 'smtp.gmail.com', port: 465, secure: true,
